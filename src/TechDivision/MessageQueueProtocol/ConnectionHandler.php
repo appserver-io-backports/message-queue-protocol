@@ -26,6 +26,7 @@ use TechDivision\WebServer\Interfaces\ConnectionHandlerInterface;
 use TechDivision\WebServer\Interfaces\ServerContextInterface;
 use TechDivision\WebServer\Interfaces\WorkerInterface;
 use TechDivision\WebServer\Sockets\SocketInterface;
+use TechDivision\WebServer\Sockets\SocketReadTimeoutException;
 
 /**
  * This is a connection handler to handle native persistence container requests.
@@ -70,6 +71,13 @@ class ConnectionHandler implements ConnectionHandlerInterface
     protected $modules;
 
     /**
+     * The message queue parser instance.
+     *
+     * @var \TechDivision\MessageQueueProtocol\MessageQueueParser
+     */
+    protected $parser;
+
+    /**
      * Inits the connection handler by given context and params
      *
      * @param \TechDivision\WebServer\Interfaces\ServerContextInterface $serverContext The servers context
@@ -82,6 +90,9 @@ class ConnectionHandler implements ConnectionHandlerInterface
 
         // set server context
         $this->serverContext = $serverContext;
+
+        // initialize the message queue parser
+        $this->parser = new MessageQueueParser();
 
         // register shutdown handler
         register_shutdown_function(array(&$this, "shutdown"));
@@ -130,52 +141,44 @@ class ConnectionHandler implements ConnectionHandlerInterface
             $this->connection = $connection;
             $this->worker = $worker;
 
+            // load the container instance
             $container = $this->getContainer();
-
-            // receive a line from the connection
-            $buffer = '';
-            while ($line = $connection->readLine()) {
-
-                // if receive timeout occured
-                if (strlen($line) === 0) {
-                    break;
-                }
-
-                // append line to buffer
-                $buffer .= $line;
-
-                // check if data transmission has finished
-                if (false === strpos($buffer, "\r\n")) {
-                    break;
-                }
-            }
+			$parser = $this->getParser();
 
             // register the class loader
             $this->registerClassLoader();
 
-            // extract the remote method to process
-            $message = unserialize(base64_decode($buffer));
+            // initialize the status code for the response
+            $statusCode = MessageQueueProtocol::STATUS_CODE_OK;
+
+            // read the remote method from the connection
+            $contentLength = $parser->parseHeader($connection->readLine());
+            $message = $parser->parseBody($connection, $contentLength);
 
             // load class name and session ID from remote method
-            $queue = $message->getDestination();
+            $queueProxy = $message->getDestination();
             $sessionId = $message->getSessionId();
 
             // load the referenced application from the server
-            $application = $this->findApplication($queue);
+            $application = $this->findApplication($queueProxy);
 
-            // lookup the message receiver and process the message
-            $receiver = $application->locate($queue);
+            // lookup the queue and process the message
+            $queue = $application->locate($queueProxy);
+
+            // lock the container and lookup the bean instance
+            $instance = $container->lookup($queue->getType(), $sessionId, array($application));
 
             // set container to receiver
-            $receiver->setContainer($container);
-            $receiver->onMessage($message, $sessionId);
+            $instance->injectContainer($container);
+            $instance->onMessage($message, $sessionId);
 
         } catch (\Exception $e) {
-            $response = $e;
+            $statusCode = MessageQueueProtocol::STATUS_CODE_INTERNAL_SERVER_ERROR;
         }
 
         // send the the result back to the client
-        $connection->write(base64_encode(serialize($response)) . "\r\n");
+        $connection->write(MessageQueueProtocol::prepareResult($statusCode));
+        $connection->write($response);
 
         // finally close connection
         $connection->close();
@@ -232,6 +235,16 @@ class ConnectionHandler implements ConnectionHandlerInterface
     }
 
     /**
+     * Returns the parser to process the message.
+     *
+     * @return \TechDivision\MessageQueuProtocol\MessageQueueParser The parser instance
+     */
+	public function getParser()
+	{
+		return $this->parser;
+	}
+
+    /**
      * Returns the array with the available applications.
      *
      * @return array The available applications
@@ -285,24 +298,24 @@ class ConnectionHandler implements ConnectionHandlerInterface
     }
 
     /**
-     * Tries to find and return the application for the passed application name.
+     * Tries to find and return the queue for the passed application name.
      *
-     * @param string $appName The name of the application to find and return the application instance
+     * @param string $queueName The name of the queue to find and return the application instance
      *
      * @return \TechDivision\PersistenceContainer\Application The application instance
      * @throws \TechDivision\PersistenceContainer\Protocol\RemoteMethodCallException Is thrown if no application can be found for the passed class name
      */
-    public function findApplication($appName)
+    public function findApplication($queueName)
     {
 
         // iterate over all classes and check if the application name contains the class name
         foreach ($this->getApplications() as $name => $application) {
-            if ($application->hasQueue($queue)) {
+            if ($application->hasQueue($queueName)) {
                 return $application;
             }
         }
 
         // if not throw an exception
-        throw new \Exception("Can\'t find application for '" . $queue->getName() . "'");
+        throw new \Exception(sprintf("Can\'t find application for '%s'", $queueName));
     }
 }
