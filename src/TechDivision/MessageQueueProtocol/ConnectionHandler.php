@@ -22,11 +22,11 @@
 
 namespace TechDivision\MessageQueueProtocol;
 
-use TechDivision\WebServer\Interfaces\ConnectionHandlerInterface;
-use TechDivision\WebServer\Interfaces\ServerContextInterface;
-use TechDivision\WebServer\Interfaces\WorkerInterface;
-use TechDivision\WebServer\Sockets\SocketInterface;
-use TechDivision\WebServer\Sockets\SocketReadTimeoutException;
+use TechDivision\Server\Interfaces\ConnectionHandlerInterface;
+use TechDivision\Server\Interfaces\ServerContextInterface;
+use TechDivision\Server\Interfaces\WorkerInterface;
+use TechDivision\Server\Sockets\SocketInterface;
+use TechDivision\Server\Sockets\SocketReadTimeoutException;
 
 /**
  * This is a connection handler to handle native persistence container requests.
@@ -45,21 +45,21 @@ class ConnectionHandler implements ConnectionHandlerInterface
     /**
      * The server context instance.
      *
-     * @var \TechDivision\WebServer\Interfaces\ServerContextInterface
+     * @var \TechDivision\Server\Interfaces\ServerContextInterface
      */
     protected $serverContext;
 
     /**
      * The connection instance.
      *
-     * @var \TechDivision\WebServer\Sockets\SocketInterface
+     * @var \TechDivision\Server\Sockets\SocketInterface
      */
     protected $connection;
 
     /**
      * The worker instance.
      *
-     * @var \TechDivision\WebServer\Interfaces\WorkerInterface
+     * @var \TechDivision\Server\Interfaces\WorkerInterface
      */
     protected $worker;
 
@@ -80,8 +80,8 @@ class ConnectionHandler implements ConnectionHandlerInterface
     /**
      * Inits the connection handler by given context and params
      *
-     * @param \TechDivision\WebServer\Interfaces\ServerContextInterface $serverContext The servers context
-     * @param array                                                     $params        The params for connection handler
+     * @param \TechDivision\Server\Interfaces\ServerContextInterface $serverContext The servers context
+     * @param array                                                  $params        The params for connection handler
      *
      * @return void
      */
@@ -127,8 +127,8 @@ class ConnectionHandler implements ConnectionHandlerInterface
      * Handles the connection with the connected client in a proper way the given
      * protocol type and version expects for example.
      *
-     * @param \TechDivision\WebServer\Sockets\SocketInterface    $connection The connection to handle
-     * @param \TechDivision\WebServer\Interfaces\WorkerInterface $worker     The worker how started this handle
+     * @param \TechDivision\Server\Sockets\SocketInterface    $connection The connection to handle
+     * @param \TechDivision\Server\Interfaces\WorkerInterface $worker     The worker how started this handle
      *
      * @return bool Weather it was responsible to handle the firstLine or not.
      */
@@ -143,7 +143,7 @@ class ConnectionHandler implements ConnectionHandlerInterface
 
             // load the container instance
             $container = $this->getContainer();
-			$parser = $this->getParser();
+            $parser = $this->getParser();
 
             // register the class loader
             $this->registerClassLoader();
@@ -187,7 +187,7 @@ class ConnectionHandler implements ConnectionHandlerInterface
     /**
      * Returns the server context instance
      *
-     * @return \TechDivision\WebServer\Interfaces\ServerContextInterface
+     * @return \TechDivision\Server\Interfaces\ServerContextInterface
      */
     public function getServerContext()
     {
@@ -197,7 +197,7 @@ class ConnectionHandler implements ConnectionHandlerInterface
     /**
      * Returns the connection used to handle with
      *
-     * @return \TechDivision\WebServer\Sockets\SocketInterface
+     * @return \TechDivision\Server\Sockets\SocketInterface
      */
     protected function getConnection()
     {
@@ -207,7 +207,7 @@ class ConnectionHandler implements ConnectionHandlerInterface
     /**
      * Returns the worker instance which starte this worker thread
      *
-     * @return \TechDivision\WebServer\Interfaces\WorkerInterface
+     * @return \TechDivision\Server\Interfaces\WorkerInterface
      */
     protected function getWorker()
     {
@@ -217,7 +217,7 @@ class ConnectionHandler implements ConnectionHandlerInterface
     /**
      * Returns the servers configuration
      *
-     * @return \TechDivision\WebServer\Interfaces\ServerConfigurationInterface
+     * @return \TechDivision\Server\Interfaces\ServerConfigurationInterface
      */
     public function getServerConfig()
     {
@@ -239,10 +239,10 @@ class ConnectionHandler implements ConnectionHandlerInterface
      *
      * @return \TechDivision\MessageQueuProtocol\MessageQueueParser The parser instance
      */
-	public function getParser()
-	{
-		return $this->parser;
-	}
+    public function getParser()
+    {
+        return $this->parser;
+    }
 
     /**
      * Returns the array with the available applications.
