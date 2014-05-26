@@ -22,7 +22,7 @@
 
 namespace TechDivision\MessageQueueProtocol;
 
-use TechDivision\WebServer\Sockets\SocketInterface;
+use TechDivision\Server\Sockets\SocketInterface;
 use TechDivision\MessageQueueClient\QueueResponse;
 
 /**
@@ -89,8 +89,8 @@ class MessageQueueParser
      * Parses the request body and tries to unpack the remote method
      * instance from it.
      *
-     * @param TechDivision\WebServer\Sockets\SocketInterface $connectionResource The package remote method instance
-     * @param integer 										 $contentLength 	 The content lenght to read
+     * @param TechDivision\Server\Sockets\SocketInterface $connectionResource The package remote method instance
+     * @param integer                                     $contentLength      The content lenght to read
      *
      * @return object The unpacked message object
      */
