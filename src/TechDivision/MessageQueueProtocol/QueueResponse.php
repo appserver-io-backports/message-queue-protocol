@@ -22,6 +22,7 @@
 namespace TechDivision\MessageQueueProtocol;
 
 use TechDivision\MessageQueueProtocol\MessageQueueProtocol;
+
 /**
  * Class QueueResponse
  *
@@ -72,7 +73,7 @@ class QueueResponse
      */
     public function success()
     {
-    	return $this->getStatusCode() === MessageQueueProtocol::STATUS_CODE_OK;
+        return $this->getStatusCode() === MessageQueueProtocol::STATUS_CODE_OK;
     }
 
     /**

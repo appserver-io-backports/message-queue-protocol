@@ -60,7 +60,7 @@ class MessageQueueParser
     public function parseHeader($line)
     {
 
-    	// parse the header line with
+        // parse the header line with
         list ($messageType, $contentLength, $protocolVersion) = explode(' ', trim($line));
 
         // parse protocol and version
@@ -74,13 +74,13 @@ class MessageQueueParser
         // check the message type
         switch ($messageType) {
 
-        	case MessageQueueProtocol::MESSAGE_TYPE_MSG:
+            case MessageQueueProtocol::MESSAGE_TYPE_MSG:
                 return (integer) $contentLength;
-        	    break;
+                break;
 
-        	default:
-        	    throw new MessageQueueException(sprintf('Found invalid message type %s', $messageType));
-        	    break;
+            default:
+                throw new MessageQueueException(sprintf('Found invalid message type %s', $messageType));
+                break;
 
         }
     }
@@ -89,14 +89,14 @@ class MessageQueueParser
      * Parses the request body and tries to unpack the remote method
      * instance from it.
      *
-     * @param TechDivision\Server\Sockets\SocketInterface $connectionResource The package remote method instance
-     * @param integer                                     $contentLength      The content lenght to read
+     * @param TechDivision\Server\Sockets\SocketInterface $connection    The package remote method instance
+     * @param integer                                     $contentLength The content lenght to read
      *
      * @return object The unpacked message object
      */
     public function parseBody(SocketInterface $connection, $contentLength)
     {
-    	$rawResponse = stream_get_contents($connection->getConnectionResource(), $contentLength);
+        $rawResponse = stream_get_contents($connection->getConnectionResource(), $contentLength);
         return MessageQueueProtocol::unpack($rawResponse);
     }
 
@@ -110,11 +110,11 @@ class MessageQueueParser
      */
     public function parseResult($line)
     {
-    	// parse the header line with
-    	list ($protocolVersion, $statusCode, $message, ) = explode(' ', trim($line));
+        // parse the header line with
+        list ($protocolVersion, $statusCode, $message, ) = explode(' ', trim($line));
 
-    	// parse protocol and version
-    	list ($protocol, $version) = explode('/', $protocolVersion);
+        // parse protocol and version
+        list ($protocol, $version) = explode('/', $protocolVersion);
 
         // check if protocol and version are valid
         if ($protocol !== MessageQueueProtocol::PROTOCOL && $version !== MessageQueueProtocol::VERSION) {
@@ -123,11 +123,11 @@ class MessageQueueParser
 
         // prepare the queue response
         $responseMessages = MessageQueueProtocol::getResponseMessages();
-		if (isset($responseMessages[$statusCode])) {
-			return new QueueResponse($statusCode, $message);
-		}
+        if (isset($responseMessages[$statusCode])) {
+            return new QueueResponse($statusCode, $message);
+        }
 
-		// we can't prepare the queue response because of an unknown status code
-		throw new MessageQueueException(sprintf('Found unknown status code %d', $statusCode));
+        // we can't prepare the queue response because of an unknown status code
+        throw new MessageQueueException(sprintf('Found unknown status code %d', $statusCode));
     }
 }

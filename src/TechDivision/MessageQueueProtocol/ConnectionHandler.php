@@ -81,7 +81,7 @@ class ConnectionHandler implements ConnectionHandlerInterface
      * Inits the connection handler by given context and params
      *
      * @param \TechDivision\Server\Interfaces\ServerContextInterface $serverContext The servers context
-     * @param array                                                     $params        The params for connection handler
+     * @param array                                                  $params        The params for connection handler
      *
      * @return void
      */
@@ -143,7 +143,7 @@ class ConnectionHandler implements ConnectionHandlerInterface
 
             // load the container instance
             $container = $this->getContainer();
-			$parser = $this->getParser();
+            $parser = $this->getParser();
 
             // register the class loader
             $this->registerClassLoader();
@@ -239,10 +239,10 @@ class ConnectionHandler implements ConnectionHandlerInterface
      *
      * @return \TechDivision\MessageQueuProtocol\MessageQueueParser The parser instance
      */
-	public function getParser()
-	{
-		return $this->parser;
-	}
+    public function getParser()
+    {
+        return $this->parser;
+    }
 
     /**
      * Returns the array with the available applications.

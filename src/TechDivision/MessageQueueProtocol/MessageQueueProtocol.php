@@ -46,18 +46,18 @@ namespace TechDivision\MessageQueueProtocol;
 class MessageQueueProtocol
 {
 
-	/**
-	 * This is the line ending we use.
-	 *
-	 * @var string
-	 */
-	const EOL = "\r\n";
+    /**
+     * This is the line ending we use.
+     *
+     * @var string
+     */
+    const EOL = "\r\n";
 
-	/**
-	 * Protocol identifier.
-	 *
-	 * @var string
-	 */
+    /**
+     * Protocol identifier.
+     *
+     * @var string
+     */
     const PROTOCOL = 'MQ';
 
     /**
@@ -101,9 +101,9 @@ class MessageQueueProtocol
      * @var array
      */
     protected static $responseMessages = array(
-    	MessageQueueProtocol::STATUS_CODE_OK => "OK",
-    	MessageQueueProtocol::STATUS_CODE_UNKNOWN => "Unknown",
-    	MessageQueueProtocol::STATUS_CODE_INTERNAL_SERVER_ERROR => "Internal Server Error"
+        MessageQueueProtocol::STATUS_CODE_OK => "OK",
+        MessageQueueProtocol::STATUS_CODE_UNKNOWN => "Unknown",
+        MessageQueueProtocol::STATUS_CODE_INTERNAL_SERVER_ERROR => "Internal Server Error"
     );
 
     /**
@@ -115,7 +115,7 @@ class MessageQueueProtocol
      */
     public static function prepareMessageHeader($string)
     {
-    	return MessageQueueProtocol::prepareHeader(MessageQueueProtocol::MESSAGE_TYPE_MSG, $string);
+        return MessageQueueProtocol::prepareHeader(MessageQueueProtocol::MESSAGE_TYPE_MSG, $string);
     }
 
     /**
@@ -127,13 +127,13 @@ class MessageQueueProtocol
      */
     public static function prepareResult($statusCode)
     {
-		// check if we have a valid status code
-		if (!isset(MessageQueueProtocol::$responseMessages[$statusCode])) {
-			$statusCode == MessageQueueProtocol::STATUS_CODE_UNKNOWN;
-		}
+        // check if we have a valid status code
+        if (!isset(MessageQueueProtocol::$responseMessages[$statusCode])) {
+            $statusCode == MessageQueueProtocol::STATUS_CODE_UNKNOWN;
+        }
 
-		// prepare the message result ready to be send back to the client
-		return "$protocol/$version $statusCode " . MessageQueueProtocol::$responseMessages[$statusCode] . MessageQueueProtocol::EOL;
+        // prepare the message result ready to be send back to the client
+        return "$protocol/$version $statusCode " . MessageQueueProtocol::$responseMessages[$statusCode] . MessageQueueProtocol::EOL;
     }
 
     /**
@@ -146,13 +146,13 @@ class MessageQueueProtocol
      */
     protected static function prepareHeader($method, $string)
     {
-    	// prepare the header elements
-    	$protocol = MessageQueueProtocol::PROTOCOL;
-    	$version = MessageQueueProtocol::VERSION;
-    	$contentLength = strlen($string);
+        // prepare the header elements
+        $protocol = MessageQueueProtocol::PROTOCOL;
+        $version = MessageQueueProtocol::VERSION;
+        $contentLength = strlen($string);
 
         // concatenate the header string
-    	return "$method $contentLength $protocol/$version" . MessageQueueProtocol::EOL;
+        return "$method $contentLength $protocol/$version" . MessageQueueProtocol::EOL;
     }
 
     /**
@@ -162,7 +162,7 @@ class MessageQueueProtocol
      */
     public static function getResponseMessages()
     {
-    	return MessageQueueProtocol::$responseMessages;
+        return MessageQueueProtocol::$responseMessages;
     }
 
     /**
