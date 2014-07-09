@@ -76,4 +76,14 @@ class PriorityKeys
                 throw new Exception("PriorityKey with key $key doesn't exist");
         }
     }
+
+    /**
+     * Returns an array with all available priority keys.
+     *
+     * @return array The available priority keys
+     */
+    public static function getAll()
+    {
+        return array(PriorityLow::get(), PriorityMedium::get(), PriorityHigh::get());
+    }
 }

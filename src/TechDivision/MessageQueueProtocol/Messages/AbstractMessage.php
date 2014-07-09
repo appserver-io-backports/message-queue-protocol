@@ -27,9 +27,11 @@ namespace TechDivision\MessageQueueProtocol\Messages;
 use TechDivision\MessageQueueProtocol\Queue;
 use TechDivision\MessageQueueProtocol\Message;
 use TechDivision\MessageQueueProtocol\Monitor;
+use TechDivision\MessageQueueProtocol\Utils\PriorityKeys;
 use TechDivision\MessageQueueProtocol\Utils\PriorityKey;
 use TechDivision\MessageQueueProtocol\Utils\PriorityLow;
 use TechDivision\MessageQueueProtocol\Utils\MQStateKey;
+use TechDivision\MessageQueueProtocol\Utils\MQStateKeys;
 use TechDivision\MessageQueueProtocol\Utils\MQStateActive;
 
 /**
