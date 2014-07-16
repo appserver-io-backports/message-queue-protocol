@@ -43,9 +43,7 @@ class PriorityKeys
 
     /**
      * Private constructor for marking
-     * the class as utiltiy.
-     *
-     * @return void
+     * the class as utility.
      */
     final protected function __construct()
     {
@@ -59,6 +57,7 @@ class PriorityKeys
      * @param integer $key The priority key to return the instance for
      *
      * @return PriorityKey The instance
+     * @throws \Exception
      */
     public static function get($key)
     {
@@ -73,7 +72,7 @@ class PriorityKeys
                 return PriorityHigh::get();
                 break;
             default:
-                throw new Exception("PriorityKey with key $key doesn't exist");
+                throw new \Exception("PriorityKey with key $key doesn't exist");
         }
     }
 
