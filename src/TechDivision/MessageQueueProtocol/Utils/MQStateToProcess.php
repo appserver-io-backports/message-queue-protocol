@@ -55,9 +55,7 @@ class MQStateToProcess implements MQStateKey
 
     /**
      * Private constructor for marking
-     * the class as utiltiy.
-     *
-     * @return void
+     * the class as utility.
      */
     final protected function __construct()
     {

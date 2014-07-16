@@ -56,8 +56,6 @@ class QueueResponse
      *
      * @param integer $statusCode The response status from the queue
      * @param string  $message    The status message sent along with status code
-     *
-     * @return void
      */
     public function __construct($statusCode, $message)
     {
