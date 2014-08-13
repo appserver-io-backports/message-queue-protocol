@@ -1,3 +1,13 @@
+# Version 0.2.3
+
+## Bugfixes
+
+* None
+
+## Features
+
+* Add new QueueProxy class as DTO to allow sending MessageQueue instance over a network
+
 # Version 0.2.2
 
 ## Bugfixes

@@ -1,7 +1,7 @@
 <?php
 
 /**
- * TechDivision\MessageQueueProtocol\Message
+ * TechDivision\MessageQueueProtocol\QueueProxy
  *
  * NOTICE OF LICENSE
  *
@@ -22,8 +22,10 @@
 
 namespace TechDivision\MessageQueueProtocol;
 
+use TechDivision\MessageQueueProtocol\Queue;
+
 /**
- * The interface for all messages.
+ * A proxy implementation for a queue.
  *
  * @category  Library
  * @package   TechDivision_MessageQueueProtocol
@@ -33,58 +35,45 @@ namespace TechDivision\MessageQueueProtocol;
  * @link      https://github.com/techdivision/TechDivision_MessageQueueProtocol
  * @link      http://www.appserver.io
  */
-interface Message
+class QueueProxy implements Queue
 {
 
     /**
-     * Returns the name of the destination queue.
+     * The queue name to use.
      *
-     * @return string The name of the destination queue
+     * @var string
      */
-    public function getDestination();
+    protected $name = null;
 
     /**
-    * Returns the message id as an
-    * hash value..
-    *
-    * @return string The message id as hash value
-    */
-    public function getMessageId();
+     * Initializes the queue with the name to use.
+     *
+     * @param string $name Holds the queue name to use
+     */
+    private function __construct($name)
+    {
+        $this->name = $name;
+    }
 
     /**
-     * Returns the message itself.
+     * Returns the queue name.
      *
-     * @return Object The message depending on the type of the Message object
+     * @return string The queue name
      */
-    public function getMessage();
+    public function getName()
+    {
+        return $this->name;
+    }
 
     /**
-     * Sets the unique session id.
+     * Initializes and returns a new proxy instance for the passed queue.
      *
-     * @param string $sessionId The uniquid id
+     * @param \TechDivision\MessageQueueProtocol\Queue $queue The queue to create the proxy for
      *
-     * @return void
+     * @return \TechDivision\MessageQueueProtocol\Queue The proxy instance
      */
-    public function setSessionId($sessionId);
-
-    /**
-     * Returns the unique session id.
-     *
-     * @return string The uniquid id
-     */
-    public function getSessionId();
-
-    /**
-     * Returns the parent message.
-     *
-     * @return Message The parent message
-     */
-    public function getParentMessage();
-
-    /**
-     * Returns the message monitor.
-     *
-     * @return MessageMonitor The monitor
-     */
-    public function getMessageMonitor();
+    public static function createFromQueue(Queue $queue)
+    {
+        return new QueueProxy($queue->getName());
+    }
 }
