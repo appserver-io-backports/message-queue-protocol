@@ -20,7 +20,7 @@
  * @link      http://www.appserver.io
  */
 
-namespace TechDivision\MessageQueueProtoco;
+namespace TechDivision\MessageQueueProtocol;
 
 /**
  * This is the exception that is thrown if

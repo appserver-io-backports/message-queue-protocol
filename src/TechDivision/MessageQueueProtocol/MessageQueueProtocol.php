@@ -132,6 +132,10 @@ class MessageQueueProtocol
             $statusCode == MessageQueueProtocol::STATUS_CODE_UNKNOWN;
         }
 
+        // prepare the header elements
+        $protocol = MessageQueueProtocol::PROTOCOL;
+        $version = MessageQueueProtocol::VERSION;
+
         // prepare the message result ready to be send back to the client
         return "$protocol/$version $statusCode " . MessageQueueProtocol::$responseMessages[$statusCode] . MessageQueueProtocol::EOL;
     }
