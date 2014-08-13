@@ -58,9 +58,9 @@ abstract class AbstractMessage implements Message
     protected $sessionId = "";
 
     /**
-     * The destination Queue to send the message to.
+     * The name of the destination queue to send the message to.
      *
-     * @var \TechDivision\MessageQueueProtocol\Queue
+     * @var string
      */
     protected $destination = null;
 
@@ -122,21 +122,21 @@ abstract class AbstractMessage implements Message
     }
 
     /**
-     * Sets the destination Queue.
+     * Sets the name of the destination queue.
      *
-     * @param \TechDivision\MessageQueueProtocol\Queue $destination The destination
+     * @param string $destination The name of the destination queue
      *
      * @return void
      */
-    public function setDestination(Queue $destination)
+    public function setDestination($destination)
     {
         $this->destination = $destination;
     }
 
     /**
-     * Returns the destination Queue.
+     * Returns the name of the destination queue.
      *
-     * @return \TechDivision\MessageQueueProtocol\Queue The destination Queue
+     * @return string The name of the destination queue
      */
     public function getDestination()
     {
