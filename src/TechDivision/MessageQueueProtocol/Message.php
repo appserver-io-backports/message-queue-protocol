@@ -37,9 +37,9 @@ interface Message
 {
 
     /**
-     * Returns the name of the destination queue.
+     * Returns the destination queue.
      *
-     * @return string The name of the destination queue
+     * @return TechDivision\MessageQueueProtocol\Queue The destination queue
      */
     public function getDestination();
 
@@ -77,14 +77,14 @@ interface Message
     /**
      * Returns the parent message.
      *
-     * @return Message The parent message
+     * @return \TechDivision\MessageQueueProtocol\Message The parent message
      */
     public function getParentMessage();
 
     /**
      * Returns the message monitor.
      *
-     * @return MessageMonitor The monitor
+     * @return \TechDivision\MessageQueueProtocol\Monitor The monitor
      */
     public function getMessageMonitor();
 }
