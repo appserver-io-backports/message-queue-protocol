@@ -62,24 +62,17 @@ class MessageQueueParser
         // parse the header line with
         list ($messageType, $contentLength, $protocolVersion) = explode(' ', trim($line));
 
-        // parse protocol and version
-        list ($protocol, $version) = explode('/', $protocolVersion);
-
-        // check if protocol and version are valid
-        if ($protocol !== MessageQueueProtocol::PROTOCOL && $version !== MessageQueueProtocol::VERSION) {
-            throw new MessageQueueException(sprintf('Protocol %s not supported', $protocolVersion));
-        }
+        // check protocol and version
+        $this->checkProtocolAndVersion($protocolVersion);
 
         // check the message type
         switch ($messageType) {
 
             case MessageQueueProtocol::MESSAGE_TYPE_MSG:
                 return (integer) $contentLength;
-                break;
 
             default:
                 throw new MessageQueueException(sprintf('Found invalid message type %s', $messageType));
-                break;
 
         }
     }
@@ -112,13 +105,8 @@ class MessageQueueParser
         // parse the header line with
         list ($protocolVersion, $statusCode, $message, ) = explode(' ', trim($line));
 
-        // parse protocol and version
-        list ($protocol, $version) = explode('/', $protocolVersion);
-
-        // check if protocol and version are valid
-        if ($protocol !== MessageQueueProtocol::PROTOCOL && $version !== MessageQueueProtocol::VERSION) {
-            throw new MessageQueueException(sprintf('Protocol %s not supported', $protocolVersion));
-        }
+        // check protocol and version
+        $this->checkProtocolAndVersion($protocolVersion);
 
         // prepare the queue response
         $responseMessages = MessageQueueProtocol::getResponseMessages();
@@ -128,5 +116,25 @@ class MessageQueueParser
 
         // we can't prepare the queue response because of an unknown status code
         throw new MessageQueueException(sprintf('Found unknown status code %d', $statusCode));
+    }
+
+    /**
+     * Checks if the protocol version specified in the request is valid.
+     *
+     * @param string $protocolVersion The protocol version specified in the request header
+     *
+     * @return void
+     * @throws \TechDivision\MessageQueueProtocol\MessageQueueException Is thrown if the protocol version is not supported
+     */
+    protected function checkProtocolAndVersion($protocolVersion)
+    {
+
+        // parse protocol and version
+        list ($protocol, $version) = explode('/', $protocolVersion);
+
+        // check if protocol and version are valid
+        if ($protocol !== MessageQueueProtocol::PROTOCOL && $version !== MessageQueueProtocol::VERSION) {
+            throw new MessageQueueException(sprintf('Protocol %s not supported', $protocolVersion));
+        }
     }
 }

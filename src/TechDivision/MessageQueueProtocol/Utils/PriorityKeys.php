@@ -64,15 +64,12 @@ class PriorityKeys
         switch($key) { // check the passed key and return the requested PriorityKey instance
             case 1:
                 return PriorityLow::get();
-                break;
             case 2:
                 return PriorityMedium::get();
-                break;
             case 3:
                 return PriorityHigh::get();
-                break;
             default:
-                throw new \Exception("PriorityKey with key $key doesn't exist");
+                throw new \Exception(sprintf('PriorityKey with key %s doesn\'t exist', $key));
         }
     }
 
