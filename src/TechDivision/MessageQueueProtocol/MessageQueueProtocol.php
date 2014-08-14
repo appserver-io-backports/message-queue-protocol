@@ -146,7 +146,7 @@ class MessageQueueProtocol
      * @param string $method The remote method to prepare the heaed for
      * @param string $string The packed remote method instance
      *
-     * @return string The remote method header for the passed method
+     * @return $string The remote method header for the passed method
      */
     protected static function prepareHeader($method, $string)
     {
