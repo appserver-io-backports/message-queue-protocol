@@ -63,27 +63,20 @@ class MQStateKeys
         switch($key) { // check the passed key and return the requested MQStateKey instance
             case 1:
                 return MQStateActive::get();
-                break;
             case 2:
                 return MQStatePaused::get();
-                break;
             case 3:
                 return MQStateToProcess::get();
-                break;
             case 4:
                 return MQStateInProgress::get();
-                break;
             case 5:
                 return MQStateProcessed::get();
-                break;
             case 6:
                 return MQStateFailed::get();
-                break;
             case 7:
                 return MQStateUnknown::get();
-                break;
             default:
-                throw new \Exception("MQStateKey with key $key doesn't exist");
+                throw new \Exception(sprintf('MQStateKey with key %s doesn\'t exist', $key));
         }
     }
 }
