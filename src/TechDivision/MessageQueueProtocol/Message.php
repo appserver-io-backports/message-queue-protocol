@@ -39,7 +39,7 @@ interface Message
     /**
      * Returns the destination queue.
      *
-     * @return TechDivision\MessageQueueProtocol\Queue The destination queue
+     * @return \TechDivision\MessageQueueProtocol\Queue The destination queue
      */
     public function getDestination();
 

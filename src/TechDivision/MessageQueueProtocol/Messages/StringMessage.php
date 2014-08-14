@@ -26,7 +26,7 @@ namespace TechDivision\MessageQueueProtocol\Messages;
 
 /**
  * The implementation for sending a message containing
- * data encapsulated in a String.
+ * data encapsulated in a string.
  *
  * @category   Library
  * @package    TechDivision_MessageQueueProtocol
@@ -51,7 +51,7 @@ class StringMessage extends AbstractMessage
     /**
      * The message itself.
      *
-     * @var String
+     * @var string
      */
     protected $message = null;
 
@@ -61,10 +61,12 @@ class StringMessage extends AbstractMessage
      *
      * @param string $message The string with the data to send
      *
-     * @throws \Exception
+     * @throws \Exception Is thrown if the passed message is not a valid string value
      */
     public function __construct($message)
     {
+
+        // check if we've an string passed
         if (is_string($message)) {
 
             // initialize the String sent with the message
@@ -76,7 +78,8 @@ class StringMessage extends AbstractMessage
             return;
         }
 
-        throw new \Exception("Message '$message' is not a valid string");
+        // throw an exception if the message is no string value
+        throw new \Exception(sprintf('Message \'%s\' is not a valid string', $message));
     }
 
     /**
@@ -92,7 +95,7 @@ class StringMessage extends AbstractMessage
     /**
      * The message itself.
      *
-     * @return String The message itself
+     * @return string The message itself
      */
     public function getMessage()
     {
