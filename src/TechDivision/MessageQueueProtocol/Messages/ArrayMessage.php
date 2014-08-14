@@ -43,12 +43,14 @@ class ArrayMessage extends AbstractMessage
 
     /**
      * The message id as hash value.
+     *
      * @var string
      */
     protected $messageId = null;
 
     /**
      * The message itself.
+     *
      * @var array
      */
     protected $message = null;

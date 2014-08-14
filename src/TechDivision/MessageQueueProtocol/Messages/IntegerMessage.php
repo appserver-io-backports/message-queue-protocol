@@ -43,12 +43,14 @@ class IntegerMessage extends AbstractMessage
 
     /**
      * The message id as hash value.
+     *
      * @var string
      */
     protected $messageId = null;
 
     /**
      * The message itself.
+     *
      * @var integer
      */
     protected $message = null;
@@ -57,12 +59,14 @@ class IntegerMessage extends AbstractMessage
      * Initializes the message with the Integer
      * to send to the queue.
      *
-     * @param int $message The Integer with the data to send
+     * @param integer $message The integer with the data to send
      *
-     * @throws \Exception
+     * @throws \Exception Is thrown if the passed message is not a valid integer value
      */
     public function __construct($message)
     {
+
+        // check if we've an integer passed
         if (is_integer($message)) {
 
             // initialize the Integer sent with the message
@@ -74,7 +78,8 @@ class IntegerMessage extends AbstractMessage
             return;
         }
 
-        throw new \Exception("Message '$message' is not a valid integer");
+        // throw an exception if the message is no integer value
+        throw new \Exception(sprintf('Message \'%s\' is not a valid integer', $message));
     }
 
     /**
