@@ -1,3 +1,13 @@
+# Version 0.2.4
+
+## Bugfixes
+
+* None
+
+## Features
+
+* AbstractMessage class now implements \Serializable interface
+
 # Version 0.2.3
 
 ## Bugfixes

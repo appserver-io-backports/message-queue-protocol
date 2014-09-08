@@ -47,7 +47,7 @@ use TechDivision\MessageQueueProtocol\Utils\MQStateActive;
  * @link       https://github.com/techdivision/TechDivision_MessageQueueProtocol
  * @link       http://www.appserver.io
  */
-abstract class AbstractMessage implements Message
+abstract class AbstractMessage implements Message, \Serializable
 {
 
     /**
@@ -263,5 +263,31 @@ abstract class AbstractMessage implements Message
     public function isLocked()
     {
         return $this->locked;
+    }
+
+    /**
+     * Serializes the message and returns the serialized representation.
+      *
+     * @return string the string representation of the object or null
+     * @link http://php.net/manual/en/serializable.serialize.php
+     */
+    public function serialize()
+    {
+        return serialize(get_object_vars($this));
+    }
+
+    /**
+     * The serialized representation of the message.
+     *
+     * @param string $data The string representation of the object
+     *
+     * @return void
+     * @link http://php.net/manual/en/serializable.unserialize.php
+     */
+    public function unserialize($data)
+    {
+        foreach (unserialize($data) as $propertyName => $propertyValue) {
+            $this->$propertyName = $propertyValue;
+        }
     }
 }
