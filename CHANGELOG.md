@@ -1,3 +1,13 @@
+# Version 0.2.5
+
+## Bugfixes
+
+* Move composer dependenies to techdivision/application + techdivision/server to require-dev
+
+## Features
+
+* None
+
 # Version 0.2.4
 
 ## Bugfixes
