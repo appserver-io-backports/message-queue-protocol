@@ -1,3 +1,13 @@
+# Version 0.2.6
+
+## Bugfixes
+
+* None
+
+## Features
+
+* Update constant IDENTIFIER to use short class name instead of fully qualified one
+
 # Version 0.2.5
 
 ## Bugfixes
