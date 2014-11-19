@@ -46,7 +46,7 @@ interface QueueContext extends ManagerInterface
      *
      * @var string
      */
-    const IDENTIFIER = 'TechDivision\MessageQueueProtocol\QueueContext';
+    const IDENTIFIER = 'QueueContext';
 
     /**
      * Returns the array with queue names and the MessageReceiver class
